@@ -1,0 +1,707 @@
+{
+ "name": "band_rare",
+ "description": "v2.1 findings, rare-band targets (tasks/plan_bands.md)",
+ "selection": {
+  "items": [
+   "lab:50912:high",
+   "demo:age_ge_65",
+   "lab:51006:high",
+   "lab:51222:low",
+   "rx:metoprolol",
+   "lab:51277:high",
+   "lab:51221:low",
+   "hx9:585",
+   "rx:aspirin",
+   "lab:52172:high",
+   "hx9:414",
+   "hx10:N18",
+   "lab:51249:low",
+   "lab:51279:low",
+   "rx:insulin",
+   "hx9:403",
+   "lab:51244:low",
+   "rx:atorvastatin",
+   "rx:potassium chloride",
+   "hx10:I25",
+   "rx:albuterol",
+   "hx9:416",
+   "hx9:272",
+   "hx9:424",
+   "hx9:425",
+   "hx10:I27",
+   "hx10:E78",
+   "lab:50882:low",
+   "rx:glucose",
+   "lab:50862:low",
+   "rx:ibuprofen",
+   "rx:lidocaine",
+   "hx10:I42",
+   "rx:pantoprazole",
+   "rx:ferrous sulfate",
+   "hx10:J96",
+   "lab:51256:high",
+   "rx:vitamin",
+   "lab:51265:low",
+   "rx:allopurinol"
+  ],
+  "flags": {},
+  "chosen_on": "training patients only (inner-train ranking, validation choice of options)"
+ },
+ "validation": {
+  "by_max_parents": {
+   "2": {
+    "macro_auroc": 0.7788184083443962,
+    "macro_brier": 0.0934393254540149
+   },
+   "3": {
+    "macro_auroc": 0.7874817512888757,
+    "macro_brier": 0.09164725754792158
+   },
+   "4": {
+    "macro_auroc": 0.795844582766655,
+    "macro_brier": 0.09018247026522845
+   }
+  },
+  "max_parents": 4,
+  "brier_raw": 0.09018247026522845,
+  "brier_calibrated_crossfit": 0.09001625229219073,
+  "calibration": true
+ },
+ "options": {
+  "knowledge.max_parents": 4
+ },
+ "propositions": {
+  "age_ge_65": {
+   "kind": "demographic",
+   "label": "age 65 or older",
+   "age_ge": 65,
+   "pool_item": "demo:age_ge_65"
+  },
+  "hx9_585": {
+   "kind": "history",
+   "source": "prior",
+   "label": "history of chronic kidney disease, unspecified",
+   "icd9": [
+    "585"
+   ],
+   "note_terms": [
+    "esrd",
+    "hd",
+    "baseline cr",
+    "chronic kidney disease"
+   ],
+   "note_section": [
+    "past medical history"
+   ],
+   "pool_item": "hx9:585"
+  },
+  "hx9_414": {
+   "kind": "history",
+   "source": "prior",
+   "label": "history of coronary atherosclerosis of native coronary artery",
+   "icd9": [
+    "414"
+   ],
+   "note_terms": [
+    "rca",
+    "des",
+    "bms",
+    "coronary atherosclerosis native coronary"
+   ],
+   "note_section": [
+    "past medical history"
+   ],
+   "pool_item": "hx9:414"
+  },
+  "hx10_N18": {
+   "kind": "history",
+   "source": "prior",
+   "label": "history of chronic kidney disease, unspecified",
+   "icd10": [
+    "N18"
+   ],
+   "note_terms": [
+    "ckd",
+    "ckd stage",
+    "ckd chronic",
+    "chronic kidney disease"
+   ],
+   "note_section": [
+    "past medical history"
+   ],
+   "pool_item": "hx10:N18"
+  },
+  "hx9_403": {
+   "kind": "history",
+   "source": "prior",
+   "label": "history of hypertensive chronic kidney disease, unspecified, with chronic kidney disease stage i through stage iv, or unspecified",
+   "icd9": [
+    "403"
+   ],
+   "note_terms": [
+    "esrd",
+    "hd",
+    "av fistula",
+    "hypertensive chronic kidney disease"
+   ],
+   "note_section": [
+    "past medical history"
+   ],
+   "pool_item": "hx9:403"
+  },
+  "hx10_I25": {
+   "kind": "history",
+   "source": "prior",
+   "label": "history of atherosclerotic heart disease of native coronary artery without angina pectoris",
+   "icd10": [
+    "I25"
+   ],
+   "note_terms": [
+    "dyslipidemia cardiac",
+    "hypertension dyslipidemia",
+    "des",
+    "atherosclerotic heart disease native"
+   ],
+   "note_section": [
+    "past medical history"
+   ],
+   "pool_item": "hx10:I25"
+  },
+  "hx9_416": {
+   "kind": "history",
+   "source": "prior",
+   "label": "history of other chronic pulmonary heart diseases",
+   "icd9": [
+    "416"
+   ],
+   "note_terms": [
+    "pulmonary hypertension",
+    "severe pulmonary",
+    "artery hypertension",
+    "chronic pulmonary heart diseases"
+   ],
+   "note_section": [
+    "past medical history"
+   ],
+   "pool_item": "hx9:416"
+  },
+  "hx9_272": {
+   "kind": "history",
+   "source": "prior",
+   "label": "history of other and unspecified hyperlipidemia",
+   "icd9": [
+    "272"
+   ],
+   "note_terms": [
+    "hyperlipidemia"
+   ],
+   "note_section": [
+    "past medical history"
+   ],
+   "pool_item": "hx9:272"
+  },
+  "hx9_424": {
+   "kind": "history",
+   "source": "prior",
+   "label": "history of aortic valve disorders",
+   "icd9": [
+    "424"
+   ],
+   "note_terms": [
+    "valve area",
+    "aortic stenosis",
+    "mitral",
+    "aortic valve disorders"
+   ],
+   "note_section": [
+    "past medical history"
+   ],
+   "pool_item": "hx9:424"
+  },
+  "hx9_425": {
+   "kind": "history",
+   "source": "prior",
+   "label": "history of other primary cardiomyopathies",
+   "icd9": [
+    "425"
+   ],
+   "note_terms": [
+    "cardiomyopathy",
+    "dilated cardiomyopathy",
+    "cardiomyopathy ef",
+    "primary cardiomyopathies"
+   ],
+   "note_section": [
+    "past medical history"
+   ],
+   "pool_item": "hx9:425"
+  },
+  "hx10_I27": {
+   "kind": "history",
+   "source": "prior",
+   "label": "history of pulmonary hypertension, unspecified",
+   "icd10": [
+    "I27"
+   ],
+   "note_terms": [
+    "pulmonary hypertension",
+    "hypertension dyslipidemia"
+   ],
+   "note_section": [
+    "past medical history"
+   ],
+   "pool_item": "hx10:I27"
+  },
+  "hx10_E78": {
+   "kind": "history",
+   "source": "prior",
+   "label": "history of hyperlipidemia, unspecified",
+   "icd10": [
+    "E78"
+   ],
+   "note_terms": [
+    "dyslipidemia cardiac",
+    "hyperlipidemia"
+   ],
+   "note_section": [
+    "past medical history"
+   ],
+   "pool_item": "hx10:E78"
+  },
+  "hx10_I42": {
+   "kind": "history",
+   "source": "prior",
+   "label": "history of cardiomyopathy, unspecified",
+   "icd10": [
+    "I42"
+   ],
+   "note_terms": [
+    "cardiomyopathy",
+    "dilated",
+    "lvef"
+   ],
+   "note_section": [
+    "past medical history"
+   ],
+   "pool_item": "hx10:I42"
+  },
+  "hx10_J96": {
+   "kind": "history",
+   "source": "prior",
+   "label": "history of acute respiratory failure with hypoxia",
+   "icd10": [
+    "J96"
+   ],
+   "note_terms": [
+    "respiratory",
+    "aspiration",
+    "osa cpap",
+    "acute respiratory failure hypoxia"
+   ],
+   "note_section": [
+    "past medical history"
+   ],
+   "pool_item": "hx10:J96"
+  },
+  "dx_G50": {
+   "kind": "diagnosis",
+   "label": "Disorders of trigeminal nerve",
+   "icd10": [
+    "G50"
+   ],
+   "icd9": [
+    "3501",
+    "3502",
+    "3508",
+    "3509"
+   ]
+  },
+  "dx_D65": {
+   "kind": "diagnosis",
+   "label": "Disseminated intravascular coagulation [defibrination syndrome]",
+   "icd10": [
+    "D65"
+   ],
+   "icd9": [
+    "2866"
+   ]
+  },
+  "dx_D73": {
+   "kind": "diagnosis",
+   "label": "Diseases of spleen",
+   "icd10": [
+    "D73"
+   ],
+   "icd9": [
+    "2894",
+    "28950",
+    "28951",
+    "28953",
+    "28959"
+   ]
+  },
+  "dx_I89": {
+   "kind": "diagnosis",
+   "label": "Other noninfective disorders of lymphatic vessels and lymph nodes",
+   "icd10": [
+    "I89"
+   ],
+   "icd9": [
+    "4571",
+    "4572",
+    "4578",
+    "4579"
+   ]
+  },
+  "dx_K35": {
+   "kind": "diagnosis",
+   "label": "Acute appendicitis",
+   "icd10": [
+    "K35"
+   ],
+   "icd9": [
+    "5400",
+    "5401",
+    "5409"
+   ]
+  },
+  "dx_C25": {
+   "kind": "diagnosis",
+   "label": "Malignant neoplasm of pancreas",
+   "icd10": [
+    "C25"
+   ],
+   "icd9": [
+    "1570",
+    "1571",
+    "1572",
+    "1573",
+    "1574",
+    "1578",
+    "1579"
+   ]
+  },
+  "rx_metoprolol": {
+   "kind": "medication",
+   "label": "metoprolol",
+   "drug_terms": [
+    "metoprolol"
+   ],
+   "note_section": [
+    "medications on admission",
+    "history of present illness"
+   ],
+   "pool_item": "rx:metoprolol"
+  },
+  "rx_aspirin": {
+   "kind": "medication",
+   "label": "aspirin",
+   "drug_terms": [
+    "aspirin"
+   ],
+   "note_section": [
+    "medications on admission",
+    "history of present illness"
+   ],
+   "pool_item": "rx:aspirin"
+  },
+  "rx_insulin": {
+   "kind": "medication",
+   "label": "insulin",
+   "drug_terms": [
+    "insulin"
+   ],
+   "note_section": [
+    "medications on admission",
+    "history of present illness"
+   ],
+   "pool_item": "rx:insulin"
+  },
+  "rx_atorvastatin": {
+   "kind": "medication",
+   "label": "atorvastatin",
+   "drug_terms": [
+    "atorvastatin"
+   ],
+   "note_section": [
+    "medications on admission",
+    "history of present illness"
+   ],
+   "pool_item": "rx:atorvastatin"
+  },
+  "rx_potassium chloride": {
+   "kind": "medication",
+   "label": "potassium chloride",
+   "drug_terms": [
+    "potassium chloride"
+   ],
+   "note_section": [
+    "medications on admission",
+    "history of present illness"
+   ],
+   "pool_item": "rx:potassium chloride"
+  },
+  "rx_albuterol": {
+   "kind": "medication",
+   "label": "albuterol",
+   "drug_terms": [
+    "albuterol"
+   ],
+   "note_section": [
+    "medications on admission",
+    "history of present illness"
+   ],
+   "pool_item": "rx:albuterol"
+  },
+  "rx_glucose": {
+   "kind": "medication",
+   "label": "glucose",
+   "drug_terms": [
+    "glucose"
+   ],
+   "note_section": [
+    "medications on admission",
+    "history of present illness"
+   ],
+   "pool_item": "rx:glucose"
+  },
+  "rx_ibuprofen": {
+   "kind": "medication",
+   "label": "ibuprofen",
+   "drug_terms": [
+    "ibuprofen"
+   ],
+   "note_section": [
+    "medications on admission",
+    "history of present illness"
+   ],
+   "pool_item": "rx:ibuprofen"
+  },
+  "rx_lidocaine": {
+   "kind": "medication",
+   "label": "lidocaine",
+   "drug_terms": [
+    "lidocaine"
+   ],
+   "note_section": [
+    "medications on admission",
+    "history of present illness"
+   ],
+   "pool_item": "rx:lidocaine"
+  },
+  "rx_pantoprazole": {
+   "kind": "medication",
+   "label": "pantoprazole",
+   "drug_terms": [
+    "pantoprazole"
+   ],
+   "note_section": [
+    "medications on admission",
+    "history of present illness"
+   ],
+   "pool_item": "rx:pantoprazole"
+  },
+  "rx_ferrous sulfate": {
+   "kind": "medication",
+   "label": "ferrous sulfate",
+   "drug_terms": [
+    "ferrous sulfate"
+   ],
+   "note_section": [
+    "medications on admission",
+    "history of present illness"
+   ],
+   "pool_item": "rx:ferrous sulfate"
+  },
+  "rx_vitamin": {
+   "kind": "medication",
+   "label": "vitamin",
+   "drug_terms": [
+    "vitamin"
+   ],
+   "note_section": [
+    "medications on admission",
+    "history of present illness"
+   ],
+   "pool_item": "rx:vitamin"
+  },
+  "rx_allopurinol": {
+   "kind": "medication",
+   "label": "allopurinol",
+   "drug_terms": [
+    "allopurinol"
+   ],
+   "note_section": [
+    "medications on admission",
+    "history of present illness"
+   ],
+   "pool_item": "rx:allopurinol"
+  },
+  "lab_50912_high": {
+   "kind": "lab",
+   "label": "Creatinine high",
+   "itemids": [
+    50912
+   ],
+   "direction": "high",
+   "note_keys": [
+    "Creat",
+    "CREAT"
+   ],
+   "pool_item": "lab:50912:high"
+  },
+  "lab_51006_high": {
+   "kind": "lab",
+   "label": "Urea Nitrogen high",
+   "itemids": [
+    51006
+   ],
+   "direction": "high",
+   "note_keys": [
+    "UreaN",
+    "BUN"
+   ],
+   "pool_item": "lab:51006:high"
+  },
+  "lab_51222_low": {
+   "kind": "lab",
+   "label": "Hemoglobin low",
+   "itemids": [
+    51222
+   ],
+   "direction": "low",
+   "note_keys": [
+    "Hgb",
+    "HGB"
+   ],
+   "pool_item": "lab:51222:low"
+  },
+  "lab_51277_high": {
+   "kind": "lab",
+   "label": "RDW high",
+   "itemids": [
+    51277
+   ],
+   "direction": "high",
+   "note_keys": [
+    "RDW"
+   ],
+   "pool_item": "lab:51277:high"
+  },
+  "lab_51221_low": {
+   "kind": "lab",
+   "label": "Hematocrit low",
+   "itemids": [
+    51221
+   ],
+   "direction": "low",
+   "note_keys": [
+    "Hct",
+    "HCT"
+   ],
+   "pool_item": "lab:51221:low"
+  },
+  "lab_52172_high": {
+   "kind": "lab",
+   "label": "RDW-SD high",
+   "itemids": [
+    52172
+   ],
+   "direction": "high",
+   "note_keys": [
+    "RDWSD"
+   ],
+   "pool_item": "lab:52172:high"
+  },
+  "lab_51249_low": {
+   "kind": "lab",
+   "label": "MCHC low",
+   "itemids": [
+    51249
+   ],
+   "direction": "low",
+   "note_keys": [
+    "MCHC"
+   ],
+   "pool_item": "lab:51249:low"
+  },
+  "lab_51279_low": {
+   "kind": "lab",
+   "label": "Red Blood Cells low",
+   "itemids": [
+    51279
+   ],
+   "direction": "low",
+   "note_keys": [
+    "RBC"
+   ],
+   "pool_item": "lab:51279:low"
+  },
+  "lab_51244_low": {
+   "kind": "lab",
+   "label": "Lymphocytes low",
+   "itemids": [
+    51244
+   ],
+   "direction": "low",
+   "note_keys": [
+    "Lymphs",
+    "LYMPHS"
+   ],
+   "pool_item": "lab:51244:low"
+  },
+  "lab_50882_low": {
+   "kind": "lab",
+   "label": "Bicarbonate low",
+   "itemids": [
+    50882
+   ],
+   "direction": "low",
+   "note_keys": [
+    "HCO3",
+    "CO2"
+   ],
+   "pool_item": "lab:50882:low"
+  },
+  "lab_50862_low": {
+   "kind": "lab",
+   "label": "Albumin low",
+   "itemids": [
+    50862
+   ],
+   "direction": "low",
+   "note_keys": [
+    "Albumin",
+    "ALBUMIN"
+   ],
+   "pool_item": "lab:50862:low"
+  },
+  "lab_51256_high": {
+   "kind": "lab",
+   "label": "Neutrophils high",
+   "itemids": [
+    51256
+   ],
+   "direction": "high",
+   "note_keys": [
+    "Neuts",
+    "NEUTS"
+   ],
+   "pool_item": "lab:51256:high"
+  },
+  "lab_51265_low": {
+   "kind": "lab",
+   "label": "Platelet Count low",
+   "itemids": [
+    51265
+   ],
+   "direction": "low",
+   "note_keys": [
+    "COUNT",
+    "Ct",
+    "Plt"
+   ],
+   "pool_item": "lab:51265:low"
+  }
+ }
+}

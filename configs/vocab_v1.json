@@ -1,0 +1,284 @@
+{
+ "name": "v1-16-items",
+ "description": "Hand-picked 16 propositions (frozen at tag heldout-v1).",
+ "propositions": {
+  "ckd": {
+   "kind": "history",
+   "label": "chronic kidney disease",
+   "icd10": [
+    "N18"
+   ],
+   "icd9": [
+    "585"
+   ],
+   "note_terms": [
+    "chronic kidney disease",
+    "ckd",
+    "chronic renal",
+    "esrd",
+    "end stage renal"
+   ]
+  },
+  "diabetes": {
+   "kind": "history",
+   "label": "diabetes mellitus",
+   "icd10": [
+    "E08",
+    "E09",
+    "E10",
+    "E11",
+    "E13"
+   ],
+   "icd9": [
+    "250"
+   ],
+   "note_terms": [
+    "diabetes",
+    "dm2",
+    "t2dm",
+    "iddm",
+    "niddm",
+    "dm type",
+    "type 2 dm",
+    "type ii dm"
+   ]
+  },
+  "copd": {
+   "kind": "history",
+   "label": "COPD",
+   "icd10": [
+    "J44"
+   ],
+   "icd9": [
+    "491",
+    "492",
+    "496"
+   ],
+   "note_terms": [
+    "copd",
+    "chronic obstructive",
+    "emphysema",
+    "chronic bronchitis"
+   ]
+  },
+  "heart_failure": {
+   "kind": "diagnosis",
+   "label": "heart failure",
+   "icd10": [
+    "I50"
+   ],
+   "icd9": [
+    "428"
+   ],
+   "label_terms": [
+    "heart failure",
+    "chf",
+    "hfref",
+    "hfpef",
+    "hf exacerbation"
+   ]
+  },
+  "afib": {
+   "kind": "diagnosis",
+   "label": "atrial fibrillation",
+   "icd10": [
+    "I48"
+   ],
+   "icd9": [
+    "42731"
+   ],
+   "label_terms": [
+    "atrial fibrillation",
+    "afib",
+    "a-fib",
+    "a fib",
+    "atrial flutter"
+   ]
+  },
+  "uti": {
+   "kind": "diagnosis",
+   "label": "urinary tract infection",
+   "icd10": [
+    "N390",
+    "N10",
+    "N300"
+   ],
+   "icd9": [
+    "5990",
+    "5901",
+    "5950"
+   ],
+   "label_terms": [
+    "urinary tract infection",
+    "uti",
+    "pyelonephritis",
+    "cystitis"
+   ]
+  },
+  "pneumonia": {
+   "kind": "diagnosis",
+   "label": "pneumonia",
+   "icd10": [
+    "J12",
+    "J13",
+    "J14",
+    "J15",
+    "J16",
+    "J17",
+    "J18"
+   ],
+   "icd9": [
+    "480",
+    "481",
+    "482",
+    "483",
+    "484",
+    "485",
+    "486"
+   ],
+   "label_terms": [
+    "pneumonia",
+    "pna"
+   ]
+  },
+  "aki": {
+   "kind": "diagnosis",
+   "label": "acute kidney injury",
+   "icd10": [
+    "N17"
+   ],
+   "icd9": [
+    "584"
+   ],
+   "label_terms": [
+    "acute kidney injury",
+    "aki",
+    "acute renal failure",
+    "arf"
+   ]
+  },
+  "anemia": {
+   "kind": "diagnosis",
+   "label": "anemia",
+   "icd10": [
+    "D50",
+    "D51",
+    "D52",
+    "D53",
+    "D55",
+    "D56",
+    "D57",
+    "D58",
+    "D59",
+    "D60",
+    "D61",
+    "D62",
+    "D63",
+    "D64"
+   ],
+   "icd9": [
+    "280",
+    "281",
+    "282",
+    "283",
+    "284",
+    "285"
+   ],
+   "label_terms": [
+    "anemia",
+    "anaemia"
+   ]
+  },
+  "loop_diuretic": {
+   "kind": "medication",
+   "label": "loop diuretic",
+   "drug_terms": [
+    "furosemide",
+    "bumetanide",
+    "torsemide",
+    "lasix",
+    "bumex"
+   ]
+  },
+  "anticoagulant": {
+   "kind": "medication",
+   "label": "oral anticoagulant",
+   "drug_terms": [
+    "warfarin",
+    "coumadin",
+    "apixaban",
+    "eliquis",
+    "rivaroxaban",
+    "xarelto",
+    "dabigatran",
+    "pradaxa",
+    "edoxaban"
+   ]
+  },
+  "beta_blocker": {
+   "kind": "medication",
+   "label": "beta blocker",
+   "drug_terms": [
+    "metoprolol",
+    "carvedilol",
+    "atenolol",
+    "bisoprolol",
+    "labetalol",
+    "nadolol",
+    "propranolol"
+   ]
+  },
+  "creat_high": {
+   "kind": "lab",
+   "label": "creatinine high",
+   "itemids": [
+    50912,
+    52546
+   ],
+   "direction": "high",
+   "note_keys": [
+    "Creat",
+    "Creatinine",
+    "Cr"
+   ]
+  },
+  "na_low": {
+   "kind": "lab",
+   "label": "sodium low",
+   "itemids": [
+    50983,
+    52623
+   ],
+   "direction": "low",
+   "note_keys": [
+    "Na",
+    "Sodium"
+   ]
+  },
+  "wbc_high": {
+   "kind": "lab",
+   "label": "WBC high",
+   "itemids": [
+    51301
+   ],
+   "direction": "high",
+   "note_keys": [
+    "WBC"
+   ]
+  },
+  "hgb_low": {
+   "kind": "lab",
+   "label": "hemoglobin low",
+   "itemids": [
+    51222
+   ],
+   "direction": "low",
+   "note_keys": [
+    "Hgb",
+    "Hemoglobin",
+    "Hb"
+   ]
+  }
+ },
+ "options": {}
+}

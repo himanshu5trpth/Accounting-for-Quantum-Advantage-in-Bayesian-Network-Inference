@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qddx"
+version = "0.1.0"
+description = "Q-DDx: agentic + quantum-symbolic differential diagnosis from admission notes (MIMIC-IV)"
+requires-python = ">=3.11"
+dependencies = ["duckdb>=1.1", "numpy", "pandas", "pyarrow", "scipy", "scikit-learn", "qiskit>=2.0",
+                "qiskit-aer>=0.17", "qiskit-algorithms>=0.4", "matplotlib", "pyyaml"]
+
+[project.optional-dependencies]
+test = ["pytest", "xgboost"]
+# scripts/ for the cost paper: benchmark networks, compiler comparison, fault-tolerant estimates, statistical audit
+paper = ["pgmpy==1.1.2", "networkx", "pytket==2.18.5", "pytket-qiskit==0.79.0", "qsharp", "statsmodels", "rapidfuzz"]
+# optional model comparisons (scripts/born.py, scripts/vqc.py)
+extra-models = ["torch"]
+
+[project.scripts]
+qddx = "qddx.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

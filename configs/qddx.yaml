@@ -1,0 +1,143 @@
+# Q-DDx: graded, explainable differential diagnosis with an agentic neural layer and a quantum symbolic engine.
+# Everything clinical here is data-native: ICD codes and drug names as recorded in MIMIC-IV, lab reference
+# ranges as recorded in MIMIC-IV. No external rule sources.
+name: qddx
+seed: 2026
+paths:
+  mimic_root: data/mimic-iv-3.1                                  # PhysioNet MIMIC-IV v3.1 (hosp/ is read)
+  notes_csv: data/dev_notes.csv                                  # optional development notes (not distributed)
+  mimic_notes: data/mimic-iv-note-2.2/note/discharge.csv.gz      # PhysioNet MIMIC-IV-Note v2.2
+  artifacts: artifacts
+  reports: reports
+
+compute:
+  duckdb_memory_limit: auto
+  duckdb_threads: null
+
+# ---------------------------------------------------------------- vocabulary (propositions = qubits)
+# A JSON file (path relative to this config). v1 = the hand-picked 16 (configs/vocab_v1.json); v2 = data-selected
+# (configs/vocab_v2.json, written after `qddx discover` and the selection discussion). Order: history -> diagnoses
+# -> medications -> labs (edges only point forward). Optional "options" in the file override knowledge/engine keys.
+vocab: vocab_v1.json
+
+knowledge:
+  adult_age: 18
+  lab_window_hours: [-12, 24]
+  med_window_hours: [0, 24]
+  max_parents: 3
+  min_gain: 0.001
+  split: [0.8, 0.2]          # subject-level train/test for the MIMIC-scale evaluation
+  fuzzy_width: 0.05          # graded lab membership: logistic ramp at the data-derived limit, scale = 5% of the reference span
+
+notes:
+  evidence_sections: [chief complaint, history of present illness, past medical history, social history,
+                      family history, medications on admission, allergies, physical exam, pertinent results]
+  stop_markers: ["labs on discharge", "discharge labs", "discharge physical exam", "pertinent results on discharge"]
+  label_section: discharge diagnosis
+  hedge_terms: [possible, possibly, probable, likely, suspected, suspect, concern for, questionable, "r/o", rule out, "?"]
+  negation_terms: ["no", denies, denied, without, "negative for", "not", never, "free of"]
+  hedge_membership: 0.7       # 'possible X': leans present, below a documented finding
+
+agent:
+  backend: llm               # llm | baseline (regex/NegEx extractor, no language model)
+  url: http://127.0.0.1:11434   # local Ollama server; IPv4 explicitly, since 'localhost' may reach a different server
+  model: gpt-oss:20b
+  timeout_s: 300
+  think: low                 # gpt-oss reasoning effort (ignored by models without it)
+  max_steps: 3               # agentic follow-up queries proposed by the engine
+  min_info_gain: 0.01
+  min_searches: 2            # follow-ups must search with at least two wordings
+  max_tool_calls: 4
+  max_chars: 12000
+  num_ctx: 16384              # fixed context for every model and server (older servers default smaller, newer larger)
+
+engine:
+  backend: exact             # exact | quantum (posteriors for every note); experiments compare all engines
+  eps: 0.01                  # IAE first pass (absolute)
+  rel_eps: 0.01              # then refined: P(E) to 1% relative, P(t,E) to 1% of P(E) -> posterior error ~0.02 (95%)
+  alpha: 0.05
+  shots: 100
+  top_k: 3
+  budget_samples: 2000000    # cap on the matched sampling budget in the note-level engine comparison
+
+evaluation:
+  bootstrap: 1000            # 200 notes, clustered by subject
+  bootstrap_kb: 200          # MIMIC test split (~10^5 admissions; intervals are already narrow)
+  quantum_notes: 10          # notes whose circuits are checked gate-by-gate against exact amplitudes
+  circuit_max_qubits: 22     # gate-level simulation only up to this size (after dropping barren nodes); cost doubles per qubit
+  advantage:
+    profiles: 60             # MIMIC test admissions used for the rare-evidence scaling study
+    rel_error: 0.1
+    rel_factors: [2, 1, 0.5, 0.25, 0.125, 0.0625]   # IAE relative-precision targets = factor x rel_error
+    repeats: 10
+    evidence_sizes: [1, 2, 4, 6, 8, 10]   # findings revealed per profile (10 = full admission profile)
+    lw_max: 300000
+    sample_grid: [100, 300, 1000, 3000, 10000, 30000, 100000, 300000, 1000000]
+    circuit_check_profiles: 3
+  noise:                     # real Grover circuits on Aer; also used by the ideal circuit check above
+    depolarizing_2q: [0.0001, 0.001]
+    eps: 0.02
+    profiles: 1                # noisy 17-qubit trajectories take minutes per posterior
+
+# Held-out test on MIMIC-IV-Note (qddx mimic-notes). Sizes and seed fixed before running.
+mimic_notes:
+  agent_sample: 1500         # random eligible notes read by the LLM agent (~1-2 h at 2-5 s/note, cached)
+  max_extractor: null        # null = every eligible note for the keyword extractor and structured comparison
+  exclude_dev_patients: true # drop all patients of the 200-note development file
+  engines_sample: 200        # sampled notes for the matched-cost engine comparison
+  bootstrap: 200
+
+# Post-freeze analyses (heldout-v1): robustness, follow-up curve, temporal shift, quantum resources, second LLM.
+# Defaults above stay fixed; these grids are reported one constant at a time and never used to pick new defaults.
+experiments:
+  reference_model: gpt-oss:20b   # model whose cached answers are replayed (no LLM calls)
+  hedge_grid: [0.6, 0.7, 0.8, 0.9]
+  width_grid: [0.025, 0.05, 0.1]
+  parents_grid: [1, 2, 3, 4]
+  followup_steps: [0, 1, 2, 3]
+  bootstrap: 100
+  train_eras: ["2008 - 2010", "2011 - 2013"]
+  test_eras: ["2017 - 2019", "2020 - 2022"]
+  resource_quantiles: [0.5, 0.1, 0.01, 0.001]   # P(findings) quantiles of held-out admissions
+  resource_sizes: [16, 20, 24, 28, 32]          # propositions in random networks (transpile only)
+  resource_rel_error: 0.1
+  # Models for `qddx agent-models` (same frozen 1,500 notes). Local models only: names with a cloud tag are refused,
+  # because patient notes must not leave the machine. Missing models are skipped and reported.
+  agent_models:                                    # core panel (the models reported in the README)
+    - qwen3:14b                                    # general, tool calling
+    - llama3.1:8b                                  # general, tool calling
+    - mistral-small3.2:24b                         # general, tool calling
+    - gemma3:27b                                   # general base of MedGemma
+    - medgemma:27b                                 # medical (Google MedGemma 27B)
+    - llama3:latest                                # general base of Med42-8B (Llama 3 8B instruct)
+    - thewindmom/llama3-med42-8b:latest            # medical (M42 Med42 8B)
+  include_extended: false
+  agent_models_extended:                           # opt-in: --set experiments.include_extended=true
+    - phi4:latest
+    - granite4.1:30b
+    - qwen2.5:32b
+    - deepseek-r1:14b
+  model_pairs:                                     # medical model vs its general base (paired, grounding only)
+    - ["medgemma:27b", "gemma3:27b"]
+    - ["thewindmom/llama3-med42-8b:latest", "llama3:latest"]
+
+# Run 1 (qddx discover): data-driven vocabulary selection on training patients only.
+discover:
+  inner_split: 0.8             # training patients -> inner-train (ranking, learning) / validation (curve)
+  min_prevalence: 0.005        # candidate must be present in >= 0.5% of inner-train admissions
+  max_pool: 600                # most prevalent candidates kept for ranking
+  rank_rows: 150000            # inner-train admissions used for ranking (sampled)
+  rank_limit: 200              # greedy mRMR steps; later items ordered by relevance
+  learn_rows: 200000           # inner-train admissions used to learn each curve network (sampled)
+  val_rows: 20000              # validation admissions used for the curve (sampled)
+  age_ge: 65
+  notes_fraction: 0.08         # share of training-split MIMIC-IV-Note notes used for extractability (~20k)
+  min_note_coverage: 0.05      # flag items found in < 5% of notes of positive admissions
+  treatment_lift: 3.0          # drug with lift >= 3 for any target = likely treatment (answer-containing)
+  routine_prevalence: 0.3      # order given to >= 30% of admissions = hospital routine, not patient information
+  exclude_flags: [same_concept, treatment, administrative, supply, routine, low_extractability]   # dropped from the draft
+  k_grid: [6, 8, 12, 16, 20, 24, 32, 40, 48, 64, 96, 128]
+  parents_grid: [2, 3, 4]
+  se_boot: 200                # recommended K = one-SE rule: smallest K within one bootstrap SE of the best K (note curve)
+  report_top: 60
+  draft_path: configs/vocab_v2.draft.json
