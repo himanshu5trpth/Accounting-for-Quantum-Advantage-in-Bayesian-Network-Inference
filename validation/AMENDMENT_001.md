@@ -1,0 +1,5 @@
+# Amendment 001 — implementation verification before scientific evaluation
+
+No evaluation runs have started. The source inspection found that historical `_result` counts the initial sentinel in `res.powers` as if it were a sampled round, adding 16 network passes per IAE invocation. This does not change the estimator or factor selection, but affects cost accounting. Record actual sampled passes directly as sum shots*(2*k+1), and retain the legacy count alongside it for successful invocations. Count work already spent before any failure. This correction is not chosen using scientific outcomes.
+
+The old across-band configurations are recoverable from their recorded qLW reference cost and posterior. Invert the reference expression with the saved clinical kappa to obtain aE, then exclude those amplitude pairs before selection. This is a stricter implementation of the original exclusion rule. Recreate and hash the selection before evaluation. The original protocol remains unchanged; this amendment and the updated selection are separately hashed.
